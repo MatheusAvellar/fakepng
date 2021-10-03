@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+header, main, footer {
+  max-width: 800px;
+  padding: 1em;
+  margin: auto;
+}
+nav {
+  text-align: right;
+}
+h1,h2,h3,strong,b {
+  font-weight: 500;
+}
+hr {
+  height: 3px;
+  background-color: #e8e8e8;
+  border: none;
+  outline: none;
+  margin: 3em;
+}
+#results, #exported-wrapper {
+  display: none;
+}
+#results.done, #exported-wrapper.open {
+  display: block;
+}
+#before, #after {
+  padding: 1em;
+  max-width: 100%;
+  overflow-x: auto;
+  text-align: center;
+  background: linear-gradient(150deg, #70b4a9, #6fbab9, #6ea6c8, #6f78d9, #ae73e9, #f579f1, #fd7ec7, #ff81b6);
+}
+#before img, #after canvas {
+  filter: drop-shadow(2px 4px 6px #444);
+}
+#before img {
+  max-width: 50%;
+  vertical-align: middle;
+}
+#after canvas {
+  max-width: 100%;
+  vertical-align: middle;
+}
+#controls {
+  margin-bottom: 1em;
+}
+#size-input {
+  vertical-align: middle;
+}
+#output-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+footer .timestamp {
+  text-align: right;
+  color: #aaa;
+  font-size: 85%;
+}
+a[href] {
+  text-decoration: none;
+}
+a[href]:focus, a[href]:hover, a[href]:active, a[href]:focus-within {
+  text-decoration: underline;
+}

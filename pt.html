@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="utf-8">
-  <title>Fake PNG generator</title>
+  <title>Gerador de PNG falso!</title>
   <meta content="Matheus Avellar" name="author">
-  <meta name="description" content="The fake PNG generator! Turn transparent PNGs into 'fake' PNGs!">
+  <meta name="description" content="Gerador de PNG falso! Transforme PNGs com transparência em PNGs 'falsos'!">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="alternate" hreflang="en" href="https://lab.avl.la/fakepng/index.html">
   <link rel="alternate" hreflang="pt-br" href="https://lab.avl.la/fakepng/pt.html">
@@ -15,28 +15,28 @@
 </head>
 <body>
   <header>
-    <nav><a href="./pt.html">Versão em português</a></nav>
-    <h1>Fake PNG generator!</h1>
+    <nav><a href="./index.html">English version</a></nav>
+    <h1>Gerador de PNG falso!</h1>
     <p>
-      Turn your regular, transparent PNGs into those wretched 'fake' PNGs with
-      that checkerboard pattern that everyone hates!
+      Transforme seus PNGs normais e transparentes em PNGs 'falsos' horríveis
+      com quadriculado no fundo que todo mundo odeia!
     </p>
   </header>
   <main>
     <section>
-      <label for="upload">Add file:</label>
+      <label for="upload">Abrir arquivo:</label>
       <input id="upload" type="file">
     </section>
     <section id="results">
-      <h2>Before</h2>
+      <h2>Antes</h2>
       <section id="before"></section>
       <hr>
-      <h2>After</h2>
+      <h2>Depois</h2>
       <section id="controls">
-        <label for="size-input">Square size:</label>
+        <label for="size-input">Tamanho do quadrado:</label>
         <input id="size-input" type="range" min="5" value="20" max="100">
         <span id="size-label">20</span>px
-        <button id="export-btn">Download</button>
+        <button id="export-btn">Baixar</button>
       </section>
       <section id="after">
         <canvas id="canvas" width="300" height="200"></canvas>
@@ -44,17 +44,18 @@
     </section>
     <hr>
     <section id="exported-wrapper">
-      <h2>Download</h2>
+      <h2>Baixar</h2>
       <p>
-        In case the download didn't initiate automatically, or it isn't working
-        for you, you can save the image below directly:
+        Caso o download não tenha iniciado automaticamente, ou não está
+        funcionando pra você, você pode salvar a imagem abaixo diretamente:
       </p>
       <ul>
         <li>
-          If you're on a computer, right click and select "Save image as...".
+          Se você está em um computador, clique com o botão direito e selecione
+          "Salvar imagem como...".
         </li>
         <li>
-          If you're on a phone, tap, hold, and select "Download image".
+          Se você está em um celular, toque, segure, e selecione "Baixar imagem".
         </li>
       </ul>
       <section id="output-wrapper">
@@ -64,8 +65,8 @@
   </main>
   <footer>
     <p class="timestamp">
-      Made with ♥&#xFE0E;<!--&#xFE0E;[Ref] stackoverflow.com/a/38452396/4824627-->
-      by Matheus Avellar – October 2021
+      Feito com ♥&#xFE0E;<!--&#xFE0E;[Ref] stackoverflow.com/a/38452396/4824627-->
+      por Matheus Avellar – Outubro 2021
     </p>
   </footer>
   <script src="./script.js"></script>
