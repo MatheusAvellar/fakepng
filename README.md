@@ -10,3 +10,5 @@ Check it out at [lab.avl.la/fakepng](https://lab.avl.la/fakepng/)!
 
 <img src="https://i.imgur.com/WgcfEkO.png" width="521">
 <img src="https://i.imgur.com/j2NTfRi.png" width="518">
+
+Transparent Commodore 64 image courtesy of [Evan-Amos](https://commons.wikimedia.org/wiki/User:Evan-Amos) via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Commodore-64-Computer-FL.png).
