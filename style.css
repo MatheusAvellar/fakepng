@@ -51,8 +51,10 @@ hr {
   vertical-align: middle;
 }
 #output-wrapper {
-  width: 100%;
-  overflow-x: auto;
+  max-width: 100%;
+  max-height: 70vh;
+  text-align: center;
+  overflow: auto;
 }
 footer .timestamp {
   text-align: right;
