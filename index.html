@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Fake PNG generator</title>
+  <meta content="Matheus Avellar" name="author">
+  <meta name="description" content="The fake PNG generator! Turn transparent PNGs into 'fake' PNGs!">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="alternate" hreflang="en" href="https://lab.avl.la/fakepng/index.html">
+  <link rel="alternate" hreflang="pt-br" href="https://lab.avl.la/fakepng/pt.html">
+  <link rel="alternate" hreflang="x-default" href="https://lab.avl.la/fakepng/index.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+header, main, footer {
+  max-width: 800px;
+  padding: 1em;
+  margin: auto;
+}
+h1,h2,h3,strong,b {
+  font-weight: 500;
+}
+hr {
+  height: 3px;
+  background-color: #e8e8e8;
+  border: none;
+  outline: none;
+  margin: 3em;
+}
+#results, #exported-wrapper {
+  display: none;
+}
+#results.done, #exported-wrapper.open {
+  display: block;
+}
+#before, #after {
+  padding: 1em;
+  max-width: 100%;
+  overflow-x: auto;
+  text-align: center;
+  background: linear-gradient(150deg, #70b4a9, #6fbab9, #6ea6c8, #6f78d9, #ae73e9, #f579f1, #fd7ec7, #ff81b6);
+}
+#before img, #after canvas {
+  filter: drop-shadow(2px 4px 6px #444);
+}
+#before img {
+  max-width: 50%;
+  vertical-align: middle;
+}
+#after canvas {
+  max-width: 100%;
+  vertical-align: middle;
+}
+#controls {
+  margin-bottom: 1em;
+}
+#size-input {
+  vertical-align: middle;
+}
+#output-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+footer .timestamp {
+  text-align: right;
+  color: #aaa;
+  font-size: 85%;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Fake PNG generator!</h1>
+    <p>
+      Turn your regular, transparent PNGs into those wretched 'fake' PNGs with
+      that checkerboard pattern that everyone hates!
+    </p>
+  </header>
+  <main>
+    <section>
+      <label for="upload">Add file:</label>
+      <input id="upload" type="file">
+    </section>
+    <section id="results">
+      <h2>Before</h2>
+      <section id="before"></section>
+      <hr>
+      <h2>After</h2>
+      <section id="controls">
+        <label for="size-input">Square size:</label>
+        <input id="size-input" type="range" min="5" value="20" max="100">
+        <span id="size-label">20</span>px
+        <button id="export-btn">Download</button>
+      </section>
+      <section id="after">
+        <canvas id="canvas" width="300" height="200"></canvas>
+      </section>
+    </section>
+    <hr>
+    <section id="exported-wrapper">
+      <h2>Download</h2>
+      <p>
+        In case the download didn't initiate automatically, or it isn't working
+        for you, you can save the image below directly:
+      </p>
+      <ul>
+        <li>
+          If you're on a computer, right click and select "Save image as...".
+        </li>
+        <li>
+          If you're on a phone, tap and hold
+        </li>
+      </ul>
+      <section id="output-wrapper">
+        <img id="output">
+      </section>
+    </section>
+    <script>
+const results = document.getElementById("results");
+const exported_wrapper = document.getElementById("exported-wrapper");
+const export_btn = document.getElementById("export-btn");
+const output = document.getElementById("output");
+const before = document.getElementById("before");
+const size_input = document.getElementById("size-input");
+const size_label = document.getElementById("size-label");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+let image;
+let size = 20;
+
+// [Ref] stackoverflow.com/a/22255905/4824627
+function readImage() {
+  if(!this.files || !this.files[0]) return;
+  const reader = new FileReader();
+  reader.addEventListener("load", (evt) => {
+    image = new Image();
+    image.addEventListener("load", draw);
+    image.src = evt.target.result;
+  });
+  reader.readAsDataURL(this.files[0]);
+}
+
+function draw() {
+  canvas.width = image.naturalWidth;
+  canvas.height = image.naturalHeight;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawCheckerboard(canvas.width, canvas.height);
+  ctx.drawImage(image, 0, 0);
+  while(before.firstChild)
+    before.firstChild.remove();
+  before.appendChild(image);
+  results.className = "done";
+}
+
+function drawCheckerboard(w, h) {
+  // [Ref] quickprogrammingtips.com/javascript/how-to-draw-a-chessboard-in-html-canvas-using-javascript.html
+  for(let i=0; i<(h/size)+size; i++) {
+    for(let j=0; j<(w/size)+size; j++) {
+      ctx.fillStyle = ((i+j)%2==0) ? "white":"#ccc";
+      let xOffset = j*size;
+      let yOffset = i*size;
+      ctx.fillRect(xOffset, yOffset, size, size);
+    }
+  }
+}
+
+document.getElementById("upload").addEventListener("change", readImage);
+function inputUpdated() {
+  size = +size_input.value || 20;
+  draw();
+  size_label.textContent = size;
+}
+size_input.addEventListener("input", inputUpdated);
+size_input.addEventListener("change", inputUpdated);
+export_btn.addEventListener("click", function() {
+  const fakepng = canvas.toDataURL("image/png");
+  output.src = fakepng;
+  downloadResult(fakepng);
+
+  exported_wrapper.className = "open";
+  setTimeout(() => {
+    exported_wrapper.scrollIntoView({ behavior: "smooth" });
+  }, 150);
+});
+
+function downloadResult(data) {
+  const a = document.createElement("a");
+  document.body.appendChild(a);
+  a.download = "fake.png";
+  a.href = data;
+  a.click();
+  setTimeout(() => { a.remove(); }, 150);
+}
+    </script>
+  </main>
+  <footer>
+    <p class="timestamp">
+      Made with ♥&#xFE0E;<!--&#xFE0E;[Ref] stackoverflow.com/a/38452396/4824627-->
+      by Matheus Avellar – October 2021
+    </p>
+  </footer>
+  <link rel="preload" as="style" href="https://rsms.me/inter/inter.css">
+  <link rel="stylesheet" media="print" onload="this.media='all'" href="https://rsms.me/inter/inter.css">
+  <!-- ######### -->
+  <figure id="logo">
+    <a href="/"></a>
+    <link rel="stylesheet" href="/small-logo.css">
+  </figure>
+  <!--[Ref] csswizardry.com/2020/05/the-fastest-google-fonts-->
+  <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+  <link rel="stylesheet" media="print" onload="this.media='all'"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+  </noscript>
+</body>
+</html>
